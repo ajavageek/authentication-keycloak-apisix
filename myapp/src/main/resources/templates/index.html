@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>Welcome to My App!</title>
+</head>
+<body>
+<header class="masthead bg-primary text-white text-center">
+    <div class="container d-flex align-items-center flex-column">
+        <h1 class="masthead-heading mb-0">Welcome to My App</h1>
+        <p class="masthead-subheading font-weight-light mb-0">
+            <span sec:authentication="name">Bob</span><br>
+        </p>
+    </div>
+</header>
+</body>
+</html>

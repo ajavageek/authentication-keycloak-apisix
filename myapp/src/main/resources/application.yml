@@ -1,0 +1,11 @@
+server.max-http-request-header-size: 10000000
+spring.security:
+  oauth2:
+    client:
+      registration.keycloak:
+        client-id: apisix
+        authorization-grant-type: authorization_code
+        scope: openid
+      provider.keycloak:
+        issuer-uri: http://localhost:9009/realms/apisix
+        user-name-attribute: preferred_username

@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  apisix:
+    image: apache/apisix:3.4.0-debian
+    volumes:
+      - ./config/apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro
+      - ./config/apisix/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro
+    environment:
+      KEYCLOAK_URL: http://keycloak:9009
+      KEYCLOAK_CLIENT_SECRET: rjoVkMUDpUH4TE7IXhhJuof4O7OFrbph
+    ports:
+      - "9080:9080"
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        /opt/keycloak/bin/kc.sh import --file /opt/keycloak/data/import/keycloak.json --override true
+        /opt/keycloak/bin/kc.sh start-dev --http-port 9009
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./config/keycloak:/opt/keycloak/data/import:ro
+    ports:
+      - "9009:9009"
+  myapp:
+    build: ./myapp
+    environment:
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT-SECRET: rjoVkMUDpUH4TE7IXhhJuof4O7OFrbph
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI: http://keycloak:9009/realms/apisix
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+    depends_on:
+      - keycloak
+    restart: on-failure
