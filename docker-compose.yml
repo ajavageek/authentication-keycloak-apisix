@@ -7,7 +7,7 @@ services:
       - ./config/apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro
       - ./config/apisix/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro
     environment:
-      KEYCLOAK_URL: http://keycloak:9009
+      KEYCLOAK_URL: http://keycloak.lvh.me:9009
       KEYCLOAK_CLIENT_SECRET: rjoVkMUDpUH4TE7IXhhJuof4O7OFrbph
     ports:
       - "9080:9080"
@@ -33,7 +33,7 @@ services:
     build: ./myapp
     environment:
       SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT-SECRET: rjoVkMUDpUH4TE7IXhhJuof4O7OFrbph
-      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI: http://keycloak:9009/realms/apisix
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI: http://keycloak.lvh.me:9009/realms/apisix
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
     depends_on:
       - keycloak
