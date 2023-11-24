@@ -2,17 +2,17 @@ version: "3"
 
 services:
   apisix:
-    image: apache/apisix:3.4.0-debian
+    image: apache/apisix:3.7.0-debian
     volumes:
       - ./config/apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro
       - ./config/apisix/apisix.yml:/usr/local/apisix/conf/apisix.yaml:ro
     environment:
-      KEYCLOAK_URL: http://keycloak.lvh.me:9009
+      KEYCLOAK_URL: http://keycloak.localhost:9009
       KEYCLOAK_CLIENT_SECRET: rjoVkMUDpUH4TE7IXhhJuof4O7OFrbph
     ports:
       - "9080:9080"
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0
+    image: quay.io/keycloak/keycloak:22.0.3
     entrypoint:
       - /bin/bash
       - -c
@@ -28,12 +28,12 @@ services:
       - "9009:9009"
     networks:
       default:
-        aliases: [ keycloak.lvh.me ]      
+        aliases: [ keycloak.localhost ]
   myapp:
     build: ./myapp
     environment:
       SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT-SECRET: rjoVkMUDpUH4TE7IXhhJuof4O7OFrbph
-      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI: http://keycloak.lvh.me:9009/realms/apisix
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER-URI: http://keycloak.localhost:9009/realms/apisix
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
     depends_on:
       - keycloak
