@@ -26,6 +26,9 @@ services:
       - ./config/keycloak:/opt/keycloak/data/import:ro
     ports:
       - "9009:9009"
+    networks:
+      default:
+        aliases: [ keycloak.lvh.me ]      
   myapp:
     build: ./myapp
     environment:
