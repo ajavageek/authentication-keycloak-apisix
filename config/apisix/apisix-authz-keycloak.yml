@@ -1,0 +1,12 @@
+routes:
+  - uri: /*
+    upstream:
+      nodes:
+        "myapp:8080": 1
+    plugins:
+      authz-keyclok:
+        discovery: ${{KEYCLOAK_URL:=}}/realms/apisix/.well-known/openid-configuration
+        client_id: apisix
+        client_secret: ${{KEYCLOAK_CLIENT_SECRET:=}}
+        redirect_uri: http://localhost:9080/callback
+#END
