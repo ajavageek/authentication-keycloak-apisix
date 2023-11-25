@@ -5,8 +5,9 @@ services:
     image: apache/apisix:3.7.0-debian
     volumes:
       - ./config/apisix/config.yml:/usr/local/apisix/conf/config.yaml:ro
-      #- ./config/apisix/apisix-openid-connect.yml:/usr/local/apisix/conf/apisix.yaml:ro
-      - ./config/apisix/apisix-authz-keycloak.yml:/usr/local/apisix/conf/apisix.yaml:ro
+      # Uncomment one of the lines below to enable the openid-connect plugin or the authz-keycloak plugin
+      - ./config/apisix/apisix-openid-connect.yml:/usr/local/apisix/conf/apisix.yaml:ro
+      #- ./config/apisix/apisix-authz-keycloak.yml:/usr/local/apisix/conf/apisix.yaml:ro
     environment:
       KEYCLOAK_URL: http://keycloak.localhost:9009
       KEYCLOAK_CLIENT_SECRET: rjoVkMUDpUH4TE7IXhhJuof4O7OFrbph
